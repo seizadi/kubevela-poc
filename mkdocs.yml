@@ -1,20 +1,17 @@
 # Project information
-site_name: CMDB
-site_url: https://seizadi.github.io/cmdb
+site_name: KubeVela PoC
+site_url: https://seizadi.github.io/kubevela-poc
 site_author: Soheil Eizadi
 
 # Repository
-repo_name: CMDB
-repo_url: https://github.com/seizadi/cmdb
+repo_name: kubevela-poc
+repo_url: https://github.com/seizadi/kubevela-poc
 edit_uri: edit/master/docs
 docs_dir: docs
 
 # Navigation
 nav:
   - Home: index.md
-  - Model: model.md
-  - AppModel: app_model.md
-  - Diagrams: diagrams.md
 
 # Copyright
 # TBD
