@@ -8,6 +8,16 @@ data model. This model is labeled for v1.2 which is
 
 Data Model does not have concept of CloudProvider just Region in the data model.
 
+```mermaid
+erDiagram
+    Application ||--|{ Component : ""
+    Application ||--o{ Trait : ""
+    Component ||--|{ Workload : ""
+    Application ||--o{ Policy : ""
+    Application ||--|| Workflow : ""
+    Workflow ||--o{ WorkflowStep : ""
+```
+
 Application is the top level resource:
 ```yaml
 apiVersion: core.oam.dev/v1beta1
@@ -38,16 +48,6 @@ spec:
       type: <step type>
       properties:
         <step parameter values>   
-```
-
-```mermaid
-erDiagram
-    Application ||--|{ Components : ""
-    Application ||--o{ Traits : ""
-    Components ||--|{ Workloads : ""
-    Application ||--o{ Policies : ""
-    Application ||--|| Workflow : ""
-    Workflow ||--o{ "WorkflowStep" : ""
 ```
 
 Examples of Component Definition:
