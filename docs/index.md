@@ -47,6 +47,7 @@ erDiagram
     WorkflowStep ||--|{ DefinitionRevision : ""   
 ```
 
+### Application
 Application is the top level resource:
 ```yaml
 apiVersion: core.oam.dev/v1beta1
@@ -79,6 +80,7 @@ spec:
         <step parameter values>   
 ```
 
+### ComponentDefinition
 Examples of Component Definition:
 ```yaml
 apiVersion: core.oam.dev/v1beta1
@@ -198,6 +200,7 @@ spec:
         }
 ```
 
+### TraitDefinition
 TraitDefinition provides a series of DevOps actions for the component that can be bound on demand. 
 These operation and maintenance actions are usually provided by the platform administrator, 
 such as adding a load balancing strategy, routing strategy, or performing scaler, 
@@ -267,6 +270,7 @@ spec:
         }
 ```
 
+### PolicyDefinition
 PolicyDefinition is simimarly to TraitDefinition, the difference is that 
 TraitDefinition acts on a single component but PolicyDefinition is to act on 
 the entire application as a whole (multiple components).
@@ -335,6 +339,8 @@ spec:
           envs: [...#Env]
         }
 ```
+
+### WorkflowStepDefinition
 WorkflowStepDefinition is used to describe a series of 
 steps that can be declared in the Workflow resource, such as the deployment 
 of execution resources, status check, data output, dependent input, 
@@ -383,6 +389,7 @@ spec:
         }
 ```
 
+### WorkloadDefinition
 WorkloadDefinition is a system-level feature. It's not a field that users should
 care about but as metadata checked, verified, and used by the OAM system itself.
 ```yaml
@@ -441,6 +448,8 @@ myapp-v1   54m
 myapp-v2   53m
 myapp-v3   18s
 ```
+
+### ApplicationRevision
 You can get all the information related with the application 
 in the application revision, including the application spec, 
 and all related definitions.
@@ -540,8 +549,9 @@ rollout-v1   1          e441f026c1884b14   Trait
 ```
 The best way to control version is using a new name for every definition version.
 
-Specify Component/Trait Capability Revision in Application#
-Users can specify the revision with @version approach, for example, if a user want to stick to using the v1 revision of webservice component.
+Specify Component/Trait Capability Revision in Application:
+Users can specify the revision with @version approach, for example, if a user 
+want to stick to using the v1 revision of webservice component.
 
 System admin can also write a webhook to inject the version automatically.
 ```yaml
@@ -651,9 +661,9 @@ spec:
           env: prod
 ```
 
-We apply the Application policy-demo in the example.
+You can test the Application versioning using policy-demo example.
 
-Before applying this example application, you need a namespace 
+Before deploying this example application, you need a namespace 
 named demo in the current cluster and namespace test in both 
 the current cluster and the staging cluster. 
 You need namespace prod in cluster cluster-prod as well. 
@@ -666,4 +676,306 @@ After the Application is created, a configured Application will be created under
 $ kubectl get app -n demo
 NAME          COMPONENT            TYPE         PHASE     HEALTHY   STATUS   AGE
 example-app   hello-world-server   webservice   running                      25s
+```
+
+### EnvBindings
+Kubevella supports multi-cluster application delivery using EnvBindings reource.
+
+You can simply join an existing cluster into KubeVela by specify its KubeConfig like below:
+```sh
+vela cluster join <your kubeconfig path>
+```
+It will use field context.cluster in KubeConfig as the cluster name 
+automatically, you can also specify the name by --name parameter. For example:
+```bash
+vela cluster join stage-cluster.kubeconfig --name cluster-staging
+vela cluster join prod-cluster.kubeconfig --name cluster-prod
+```
+After clusters joined, you could list all clusters managed by KubeVela currently.
+```bash
+$ vela cluster list
+CLUSTER         TYPE    ENDPOINT                
+cluster-prod    tls     https://47.88.4.97:6443 
+cluster-staging tls     https://47.88.7.230:6443
+```
+You can also detach a cluster if you're not using it any more.
+```bash
+$ vela cluster detach cluster-prod
+```
+If there's still any application running in the cluster, the command will be rejected.
+
+To test this on my local system with kubevela running on kind, I created a minikube cluser
+and tried to added it to my kubevela setup. It looks like it is not setup well for local
+testing. If I have my context set to minikube or kind I can not get the command to work
+the errors are different but still does not work, it looks like vela command line is affected
+by the local kubeconfig context setting.
+```bash
+minikube start
+kcluster minikube
+k create ns vela-system
+
+kcluster kind-kind
+vela cluster join ~/.kube/config --name minikube
+Error: failed to ensure vela-system namespace installed in cluster minikube: failed to check if namespace vela-system exists: dial tcp 127.0.0.1:54363: connect: connection refused
+
+kcluster minikube
+❯ vela cluster join ~/.kube/config --name minikube
+Error: failed to get cluster secret namespace, please ensure cluster gateway is correctly deployed: ClusterGateway APIService v1alpha1.cluster.core.oam.dev is not found
+```
+***TODO***
+Looking at the 
+[kubevela CLI cluster source code](https://github.com/oam-dev/kubevela/blob/master/references/cli/cluster.go) 
+it looks like the multi-cluster capability is built on
+[open-cluster-management.io](https://open-cluster-management.io/concepts/architecture/)
+[as you see in kubevela multi-cluster import](https://github.com/oam-dev/kubevela/blob/master/pkg/multicluster/virtual_cluster.go#L28)
+and I might need to install more packages on my system to get this to work.
+
+KubeVela regards a Kubernetes cluster as an environment, so you can deploy an 
+application into one or more environments.
+
+KubeVela can provide many strategies to deploy an application to
+multiple clusters by composing env-binding policy and workflow steps.
+
+You can have a glimpse of how does it work as below
+***NOTE: The EnvBinding is to Policy not a Trait:
+[](img/workflow-multi-env.png)
+
+Below is a concrete example, that deploys to a staging environment first, 
+we manually check that the application is running well, and finally 
+maually promote to production environment.
+
+For different environments, the deployment configuration can also have some nuance. 
+In the staging environment, we only need one replica for the webservice and do not need the worker. 
+In the production environment, we setup 3 replicas for the webservice and enable the worker.
+
+```yaml
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: example-app
+  namespace: default
+spec:
+  components:
+    - name: hello-world-server
+      type: webservice
+      properties:
+        image: crccheck/hello-world
+        port: 8000
+      traits:
+        - type: scaler
+          properties:
+            replicas: 1
+    - name: data-worker
+      type: worker
+      properties:
+        image: busybox
+        cmd:
+          - sleep
+          - '1000000'
+  policies:
+    - name: example-multi-env-policy
+      type: env-binding
+      properties:
+        envs:
+          - name: staging
+            placement: # selecting the cluster to deploy to
+              clusterSelector:
+                name: cluster-staging
+            selector: # selecting which component to use
+              components:
+                - hello-world-server
+
+          - name: prod
+            placement:
+              clusterSelector:
+                name: cluster-prod
+            patch: # overlay patch on above components
+              components:
+                - name: hello-world-server
+                  type: webservice
+                  traits:
+                    - type: scaler
+                      properties:
+                        replicas: 3
+
+    - name: health-policy-demo
+      type: health
+      properties:
+        probeInterval: 5
+        probeTimeout: 10
+
+  workflow:
+    steps:
+      # deploy to staging env
+      - name: deploy-staging
+        type: deploy2env
+        properties:
+          policy: example-multi-env-policy
+          env: staging
+
+      # manual check
+      - name: manual-approval
+        type: suspend
+
+      # deploy to prod env
+      - name: deploy-prod
+        type: deploy2env
+        properties:
+          policy: example-multi-env-policy
+          env: prod
+          
+```
+
+After the application deployed, it will run as the workflow steps.
+
+You can refer to EnvBinding and Health Check policy user guide for parameter details.
+
+It will deploy application to staging environment first, you can check the Application status by:
+```bash
+> kubectl get application example-app
+NAME          COMPONENT            TYPE         PHASE                HEALTHY   STATUS       AGE
+example-app   hello-world-server   webservice   workflowSuspending   true      Ready:1/1    10s
+```
+
+We can see that the workflow is suspended at manual-approval:
+```yaml
+...
+  status:
+    workflow:
+      appRevision: example-app-v1:44a6447e3653bcc2
+      contextBackend:
+        apiVersion: v1
+        kind: ConfigMap
+        name: workflow-example-app-context
+        uid: 56ddcde6-8a83-4ac3-bf94-d19f8f55eb3d
+      mode: StepByStep
+      steps:
+      - id: wek2b31nai
+        name: deploy-staging
+        phase: succeeded
+        type: deploy2env
+      - id: 7j5eb764mk
+        name: manual-approval
+        phase: succeeded
+        type: suspend
+      suspend: true
+      terminated: false
+      waitCount: 0
+```
+
+You can also check the health status in the status.service field below.
+```yaml
+
+...
+  status:
+    services:
+    - env: staging
+      healthy: true
+      message: 'Ready:1/1 '
+      name: hello-world-server
+      scopes:
+      - apiVersion: core.oam.dev/v1alpha2
+        kind: HealthScope
+        name: health-policy-demo
+        namespace: test
+        uid: 6e6230a3-93f3-4dba-ba09-dd863b6c4a88
+      traits:
+      - healthy: true
+        type: scaler
+      workloadDefinition:
+        apiVersion: apps/v1
+        kind: Deployment
+```
+
+You can use resume the workflow with vela command after everything verified in statging cluster:
+```bash
+> vela workflow resume example-app
+Successfully resume workflow: example-app
+```
+
+Recheck the Application status:
+```bash
+> kubectl get application example-app
+NAME          COMPONENT            TYPE         PHASE     HEALTHY   STATUS       AGE
+example-app   hello-world-server   webservice   running   true      Ready:1/1    62s
+```
+
+```yaml
+  status:
+    services:
+    - env: staging
+      healthy: true
+      message: 'Ready:1/1 '
+      name: hello-world-server
+      scopes:
+      - apiVersion: core.oam.dev/v1alpha2
+        kind: HealthScope
+        name: health-policy-demo
+        namespace: default
+        uid: 9174ac61-d262-444b-bb6c-e5f0caee706a
+      traits:
+      - healthy: true
+        type: scaler
+      workloadDefinition:
+        apiVersion: apps/v1
+        kind: Deployment
+    - env: prod
+      healthy: true
+      message: 'Ready:3/3 '
+      name: hello-world-server
+      scopes:
+      - apiVersion: core.oam.dev/v1alpha2
+        kind: HealthScope
+        name: health-policy-demo
+        namespace: default
+        uid: 9174ac61-d262-444b-bb6c-e5f0caee706a
+      traits:
+      - healthy: true
+        type: scaler
+      workloadDefinition:
+        apiVersion: apps/v1
+        kind: Deployment
+    - env: prod
+      healthy: true
+      message: 'Ready:1/1 '
+      name: data-worker
+      scopes:
+      - apiVersion: core.oam.dev/v1alpha2
+        kind: HealthScope
+        name: health-policy-demo
+        namespace: default
+        uid: 9174ac61-d262-444b-bb6c-e5f0caee706a
+      workloadDefinition:
+        apiVersion: apps/v1
+        kind: Deployment
+```
+
+All the step status in workflow is succeeded:
+```yaml
+...
+  status:
+    workflow:
+      appRevision: example-app-v1:44a6447e3653bcc2
+      contextBackend:
+        apiVersion: v1
+        kind: ConfigMap
+        name: workflow-example-app-context
+        uid: e1e7bd2d-8743-4239-9de7-55a0dd76e5d3
+      mode: StepByStep
+      steps:
+      - id: q8yx7pr8wb
+        name: deploy-staging
+        phase: succeeded
+        type: deploy2env
+      - id: 6oxrtvki9o
+        name: manual-approval
+        phase: succeeded
+        type: suspend
+      - id: uk287p8c31
+        name: deploy-prod
+        phase: succeeded
+        type: deploy2env
+      suspend: false
+      terminated: false
+      waitCount: 0
 ```
