@@ -10,7 +10,7 @@ and we will explore it for v1.2 which is current latest.
 
 The description of the data model is not very detailed, so decided to used the CRD definition
 to explore the data model. The other approach would be to look at the 
-[API defintion(https://github.com/oam-dev/kubevela/tree/master/apis).
+[API defintion](https://github.com/oam-dev/kubevela/tree/master/apis).
 
 Here is the list of CRDS that are installed with 'vela install'
 ```text
