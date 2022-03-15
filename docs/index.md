@@ -31,8 +31,8 @@ workloaddefinitions.core.oam.dev       2022-03-13T19:00:56Z
 ```mermaid
 erDiagram
     Envbinding {
-        Clusters []
-        CloudResources []
+        Clusters array
+        CloudResources array
     }    
     Application ||--|{ Component : ""
     Application ||--o{ ApplicationRevision : ""
