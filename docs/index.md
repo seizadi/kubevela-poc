@@ -1,14 +1,18 @@
 # KubeVela PoC Docs
 
+Initially focused on understanding the data model of kubevela
+
 ## OAM Data Model
 
-We define the highlevel
-[OAM](https://kubevela.io/docs/platform-engineers/oam/oam-model) 
-data model. This model is labeled for v1.2 which is 
+The highlevel is based around 
+[Open Application Model (OAM)](https://kubevela.io/docs/platform-engineers/oam/oam-model),
+and we will explore it for v1.2 which is current latest.
 
-Data Model does not have concept of CloudProvider just Region in the data model.
-The description of the data model does not have detailed model, here is the list of
-CRDS that are installed with 'vela install'
+The description of the data model is not very detailed, so decided to used the CRD definition
+to explore the data model. The other approach would be to look at the 
+[API defintion(https://github.com/oam-dev/kubevela/tree/master/apis).
+
+Here is the list of CRDS that are installed with 'vela install'
 ```text
 ❯ k get crds
 NAME                                   CREATED AT
@@ -28,6 +32,7 @@ workflowstepdefinitions.core.oam.dev   2022-03-13T19:00:56Z
 workloaddefinitions.core.oam.dev       2022-03-13T19:00:56Z
 ```
 
+***This Model is work in progress I will update it as I find more detail.***
 ```mermaid
 erDiagram
     Envbinding {
