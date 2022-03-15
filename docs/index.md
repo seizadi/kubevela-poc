@@ -737,8 +737,8 @@ KubeVela can provide many strategies to deploy an application to
 multiple clusters by composing env-binding policy and workflow steps.
 
 You can have a glimpse of how does it work as below
-***NOTE: The EnvBinding is to Policy not a Trait:
-[](img/workflow-multi-env.png)
+***NOTE: The EnvBinding is to Policy not a Trait:***
+![image for workflow with envbindings](img/workflow-multi-env.png)
 
 Below is a concrete example, that deploys to a staging environment first, 
 we manually check that the application is running well, and finally 
