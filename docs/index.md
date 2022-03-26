@@ -50,13 +50,14 @@ erDiagram
     Application ||--o{ ApplicationRevision : ""
     Application ||--o{ Trait : ""
     Component ||--|{ Workload : ""
-    Application |{--|{ Envbinding : ""
     Application ||--o{ Policy : ""
     Application ||--o{ WorkflowStep : ""
     Component ||--|{ DefinitionRevision : ""
     Policy ||--|{ DefinitionRevision : ""
     Trait ||--|{ DefinitionRevision : ""
-    WorkflowStep ||--|{ DefinitionRevision : ""   
+    WorkflowStep ||--|{ DefinitionRevision : "" 
+    WorkflowStep ||--o{ Policy : ""
+    Policy ||--o{ Envbinding : ""  
 ```
 
 ### Application
