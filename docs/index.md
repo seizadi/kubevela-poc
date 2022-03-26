@@ -8,11 +8,18 @@ The highlevel is based around
 [Open Application Model (OAM)](https://kubevela.io/docs/platform-engineers/oam/oam-model),
 and we will explore it for v1.2 which is current latest.
 
-The description of the data model is not very detailed, so decided to used the CRD definition
+The description of the data model is not very detailed, if you read the description of
+[core concepts](https://kubevela.io/docs/getting-started/core-concept), there are a lot of
+resources defined but some don't map one-to-one to a object model. For example there is
+a defition of
+[Target](https://kubevela.io/docs/getting-started/core-concept#target) that is abstract.
+
+I decided to used the CRD definition
 to explore the data model. The other approach would be to look at the 
 [API defintion](https://github.com/oam-dev/kubevela/tree/master/apis).
 
-Here is the list of CRDS that are installed with 'vela install'
+Here is the list of CRDS that are installed with 'vela install', I will go through
+them and build a data model:
 ```text
 ❯ k get crds
 NAME                                   CREATED AT
@@ -402,6 +409,98 @@ spec:
         wait: op.#ConditionalWait & {
            continue: apply.status.phase =="Running"
         }
+```
+
+#### Declare Infrastructure
+It was noted above you can use the deploy-cloud-resource and share-cloud-resource workflow types
+to deploy cloud infrastructure. This is the
+[kubevela guide](https://kubevela.io/docs/next/tutorials/consume-cloud-services), currently it is
+using Terraform provider to implement the provisioning. This is the
+[terraform provider source](https://github.com/oam-dev/kubevela/blob/master/pkg/workflow/providers/terraform/terraform.go),
+if you want more detail this code has been 
+[recently mergered](https://github.com/oam-dev/kubevela/pull/2734)
+into Kubevela.
+
+Here is a sample that deploys RDS databases:
+```yaml
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: rds-app
+  namespace: project-1
+spec:
+  components:
+    - name: db
+      type: alibaba-rds
+      properties:
+        instance_name: db
+        account_name: kubevela
+        password: my-password
+        writeConnectionSecretToRef:
+          name: project-1-rds-conn-credential
+  policies:
+    - name: env-policy
+      type: env-binding
+      properties:
+        envs:
+          # 部署 RDS 给杭州集群
+          - name: hangzhou
+            placement:
+              clusterSelector:
+                name: cluster-hangzhou
+            patch:
+              components:
+                - name: db
+                  type: alibaba-rds
+                  properties:
+                    # region: hangzhou
+                    instance_name: hangzhou_db
+          # 部署 RDS 给香港集群
+          - name: hongkong
+            placement:
+              clusterSelector:
+                name: cluster-hongkong
+              namespaceSelector:
+                name: hk-project-1
+            patch:
+              components:
+                - name: db
+                  type: alibaba-rds
+                  properties:
+                    # region: hongkong
+                    instance_name: hongkong_db
+                    writeConnectionSecretToRef:
+                      name: hk-project-rds-credential
+
+  workflow:
+    steps:
+      # 部署 RDS 给杭州区用
+      - name: deploy-hangzhou-rds
+        type: deploy-cloud-resource
+        properties:
+          env: hangzhou
+      # 将给杭州区用的 RDS 共享给北京区
+      - name: bind-hangzhou-rds-to-beijing
+        type: bind-cloud-resource
+        properties:
+          env: hangzhou
+          placements:
+            - cluster: cluster-beijing
+      # 部署 RDS 给香港区用
+      - name: deploy-hongkong-rds
+        type: deploy-cloud-resource
+        properties:
+          env: hongkong
+      # 将给香港区用的 RDS 共享给香港区其他项目用
+      - name: share-hongkong-rds-to-other-namespace
+        type: share-cloud-resource
+        properties:
+          env: hongkong
+          placements:
+            - cluster: cluster-hongkong
+              namespace: hk-project-2
+            - cluster: cluster-hongkong
+              namespace: hk-project-3
 ```
 
 ### WorkloadDefinition
@@ -995,10 +1094,12 @@ All the step status in workflow is succeeded:
       waitCount: 0
 ```
 
-## Que
+## QUE
 Kubevela integrates 
 [CUE](https://cuelang.org/docs/about/) 
 as a first class object to encapsulate, abstract and create Kubernetes resources.
+The CUE language and its own CLI was intended to solve Kubernetes configuration
+it replaces the JSON/YAML with its own tooling. 
 
 This is a good article about complexity of traditional tooling for Kubernetes
 and where 
@@ -1058,7 +1159,11 @@ spec: {
 This is a [CUE Kubernetes example](https://github.com/cue-lang/cue/blob/v0.4.2/doc/tutorial/kubernetes/README.md).
 This is based on CUE version 0.4.2 which is what I have running on my laptop at this time.
 
-I copied the kubernetes tutorials to follow it here:
+I copied the kubernetes tutorials to follow it here, it is a very detailed and comprehensive
+look at how you would convert an existing Kubernetes manifest to CUE. There is also a description
+of how to develop custom tooling (scripts) that are integrated and available from CUE CLI
+[here](https://github.com/cue-lang/cue/blob/master/doc/tutorial/kubernetes/README.md#define-commands).
+
 ```bash
 ❯ cp -rp ../../cue-lang/cue/doc/tutorial/kubernetes example/.
 ❯ cd example/kubernetes
@@ -1073,5 +1178,15 @@ I copied the kubernetes tutorials to follow it here:
     │   ├── host
     │   │   └── kube.yaml
     │   ├── maitred
+```
+
+Copy and create go module
+```bash
+$ cp -a original tmp
+$ cd tmp
+$ cue mod init
+$ go mod init example.com
+$ cd services
+$ cue import ./... -p kube -l 'strings.ToCamel(kind)' -l metadata.name -f
 ```
 
