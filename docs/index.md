@@ -1191,3 +1191,41 @@ $ cd services
 $ cue import ./... -p kube -l 'strings.ToCamel(kind)' -l metadata.name -f
 ```
 
+## Compare Models
+We will compare various confiuration data model.
+We will prune both models to focus on the signifacnt differences, also use common
+terms so it will be easier to compare.
+
+The OAM data model detailed above is pruned and some terms e.g. EnvBinding mapped
+to Environment.
+
+### Kubevela OAM Model
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fffcbb', 'fontFamily': 'aerial', 'fontSize': '50px', 'lineColor': '#ff0000', 'primaryBorderColor': '#ff0000'}}}%%
+erDiagram   
+    Application ||--|{ Component : ""
+    Component ||--|{ Environment : ""
+    Environment ||--o{ KubeCluster : "" 
+```
+### Custom Data Model
+[CMDB Data](https://seizadi.github.io/cmdb/model/) is a custom data model. We again
+prune and change the names so to make it easier to compare.
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fffcbb', 'fontFamily': 'aerial', 'fontSize': '50px', 'lineColor': '#ff0000', 'primaryBorderColor': '#ff0000'}}}%%
+erDiagram
+    Application ||--o{ Deployment : ""
+    Environment ||--o{ Application : ""
+    KubeCluster ||--o{ Deployment : ""
+    Lifecycle ||--o{ Environment : ""
+```
+
+The Kubevela OAM Environment resource is inverted from the CMDB defintion. 
+The CMDB data model loosely connect the Application to a Kubernetes cluster 
+using the Deployment object. The Kubevela requires hard binding of the Application
+using a policy to a Kuberentes Cluster.
+
+Which data model suits your requirements depends on you use case. The CMDB data model
+assumes that the Application could be deployed to any Environment/Kubernetes Cluster.
+
+The Kubevela OAM model allows an Application to scale accross multiple clustes, for
+scaling or high availability use cases.
