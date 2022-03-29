@@ -1,0 +1,1477 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Soheil Eizadi" name="author"/>
+<link href="https://seizadi.github.io/kubevela-poc/" rel="canonical"/>
+<link href="assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.3.0, mkdocs-material-8.2.8" name="generator"/>
+<title>KubeVela PoC</title>
+<link href="assets/stylesheets/main.644de097.min.css" rel="stylesheet"/>
+<link href="assets/stylesheets/palette.e6a45f82.min.css" rel="stylesheet"/>
+<meta content="#2094f3" name="theme-color"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CIBM+Plex+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"IBM Plex Mono"}</style>
+<script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="blue" data-md-color-primary="blue" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#kubevela-poc-docs">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="KubeVela PoC" class="md-header__button md-logo" data-md-component="logo" href="." title="KubeVela PoC">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            KubeVela PoC
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Home
+            
+          </span>
+</div>
+</div>
+</div>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/seizadi/kubevela-poc" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    kubevela-poc
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="KubeVela PoC" class="md-nav__button md-logo" data-md-component="logo" href="." title="KubeVela PoC">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"></path></svg>
+</a>
+    KubeVela PoC
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/seizadi/kubevela-poc" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    kubevela-poc
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href=".">
+        Home
+      </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#oam-data-model">
+    OAM Data Model
+  </a>
+<nav aria-label="OAM Data Model" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#application">
+    Application
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#componentdefinition">
+    ComponentDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#traitdefinition">
+    TraitDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#policydefinition">
+    PolicyDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#workflowstepdefinition">
+    WorkflowStepDefinition
+  </a>
+<nav aria-label="WorkflowStepDefinition" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#built-in-workflow-steps">
+    Built-in Workflow Steps
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#declare-infrastructure">
+    Declare Infrastructure
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#workloaddefinition">
+    WorkloadDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#applicationrevision">
+    ApplicationRevision
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#envbindings">
+    EnvBindings
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#que">
+    QUE
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#compare-models">
+    Compare Models
+  </a>
+<nav aria-label="Compare Models" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#kubevela-oam-model">
+    Kubevela OAM Model
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#custom-data-model">
+    Custom Data Model
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#oam-data-model">
+    OAM Data Model
+  </a>
+<nav aria-label="OAM Data Model" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#application">
+    Application
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#componentdefinition">
+    ComponentDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#traitdefinition">
+    TraitDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#policydefinition">
+    PolicyDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#workflowstepdefinition">
+    WorkflowStepDefinition
+  </a>
+<nav aria-label="WorkflowStepDefinition" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#built-in-workflow-steps">
+    Built-in Workflow Steps
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#declare-infrastructure">
+    Declare Infrastructure
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#workloaddefinition">
+    WorkloadDefinition
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#applicationrevision">
+    ApplicationRevision
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#envbindings">
+    EnvBindings
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#que">
+    QUE
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#compare-models">
+    Compare Models
+  </a>
+<nav aria-label="Compare Models" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#kubevela-oam-model">
+    Kubevela OAM Model
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#custom-data-model">
+    Custom Data Model
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<a class="md-content__button md-icon" href="https://github.com/seizadi/kubevela-poc/edit/master/docs/index.md" title="Edit this page">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"></path></svg>
+</a>
+<h1 id="kubevela-poc-docs">KubeVela PoC Docs<a class="headerlink" href="#kubevela-poc-docs" title="Permanent link">¶</a></h1>
+<p>Initially focused on understanding the data model of kubevela</p>
+<h2 id="oam-data-model">OAM Data Model<a class="headerlink" href="#oam-data-model" title="Permanent link">¶</a></h2>
+<p>The highlevel is based around 
+<a href="https://kubevela.io/docs/platform-engineers/oam/oam-model">Open Application Model (OAM)</a>,
+and we will explore it for v1.2 which is current latest.</p>
+<p>The description of the data model is not very detailed, if you read the description of
+<a href="https://kubevela.io/docs/getting-started/core-concept">core concepts</a>, there are a lot of
+resources defined but some don't map one-to-one to a object model. For example there is
+a defition of
+<a href="https://kubevela.io/docs/getting-started/core-concept#target">Target</a> that is abstract.</p>
+<p>I decided to used the CRD definition
+to explore the data model. The other approach would be to look at the 
+<a href="https://github.com/oam-dev/kubevela/tree/master/apis">API defintion</a>.</p>
+<p>Here is the list of CRDS that are installed with 'vela install', I will go through
+them and build a data model:
+<div class="highlight"><pre><span></span><code>❯ k get crds
+NAME                                   CREATED AT
+applicationrevisions.core.oam.dev      2022-03-13T19:00:55Z
+applications.core.oam.dev              2022-03-13T19:00:55Z
+componentdefinitions.core.oam.dev      2022-03-13T19:00:55Z
+definitionrevisions.core.oam.dev       2022-03-13T19:00:55Z
+envbindings.core.oam.dev               2022-03-13T19:00:55Z
+healthscopes.core.oam.dev              2022-03-13T19:00:55Z
+manualscalertraits.core.oam.dev        2022-03-13T19:00:55Z
+policydefinitions.core.oam.dev         2022-03-13T19:00:55Z
+resourcetrackers.core.oam.dev          2022-03-13T19:00:55Z
+rollouts.standard.oam.dev              2022-03-13T19:00:56Z
+scopedefinitions.core.oam.dev          2022-03-13T19:00:55Z
+traitdefinitions.core.oam.dev          2022-03-13T19:00:56Z
+workflowstepdefinitions.core.oam.dev   2022-03-13T19:00:56Z
+workloaddefinitions.core.oam.dev       2022-03-13T19:00:56Z
+</code></pre></div></p>
+<p><strong><em>This Model is work in progress I will update it as I find more detail.</em></strong>
+<div class="mermaid">erDiagram
+    Envbinding {
+        Clusters array
+        CloudResources array
+    }    
+    Application ||--|{ Component : ""
+    Application ||--o{ ApplicationRevision : ""
+    Application ||--o{ Trait : ""
+    Component ||--|{ Workload : ""
+    Application ||--o{ Policy : ""
+    Application ||--o{ WorkflowStep : ""
+    Component ||--|{ DefinitionRevision : ""
+    Policy ||--|{ DefinitionRevision : ""
+    Trait ||--|{ DefinitionRevision : ""
+    WorkflowStep ||--|{ DefinitionRevision : "" 
+    WorkflowStep ||--o{ Policy : ""
+    Policy ||--o{ Envbinding : ""  
+</div></p>
+<h3 id="application">Application<a class="headerlink" href="#application" title="Permanent link">¶</a></h3>
+<p>Application is the top level resource:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;name&gt;</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;component name&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;component type&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">&lt;parameter values&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;trait type&gt;</span><span class="w"></span>
+<span class="w">          </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="l l-Scalar l-Scalar-Plain">&lt;traits parameter values&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;component name&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;component type&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">&lt;parameter values&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">policies</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;policy name&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;policy type&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">&lt;policy parameter values&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">workflow</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;step name&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;step type&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">&lt;step parameter values&gt;</span><span class="w">   </span>
+</code></pre></div></p>
+<h3 id="componentdefinition">ComponentDefinition<a class="headerlink" href="#componentdefinition" title="Permanent link">¶</a></h3>
+<p>Examples of Component Definition:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ComponentDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;ComponentDefinition name&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition.oam.dev/description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;Function description&gt;</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">workload</span><span class="p">:</span><span class="w"> </span><span class="c1"># Workload description</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;Kubernetes Workload resource group&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;Kubernetes Workload types&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w">  </span><span class="c1"># Component description</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"> </span><span class="c1"># Details of components defined by CUE language</span><span class="w"></span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;CUE format template&gt;</span><span class="w"></span>
+</code></pre></div>
+Here is a more complete example of ComponentDefinition.
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ComponentDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">helm</span><span class="w"></span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vela-system</span><span class="w"></span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition.oam.dev/description</span><span class="p">:</span><span class="w"> </span><span class="s">"helm</span><span class="nv"> </span><span class="s">release</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">group</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">K8s</span><span class="nv"> </span><span class="s">resources</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">either</span><span class="nv"> </span><span class="s">git</span><span class="nv"> </span><span class="s">repository</span><span class="nv"> </span><span class="s">or</span><span class="nv"> </span><span class="s">helm</span><span class="nv"> </span><span class="s">repo"</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">workload</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">autodetects.core.oam.dev</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">        </span><span class="no">output: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">apiVersion: "source.toolkit.fluxcd.io/v1beta1"</span><span class="w"></span>
+<span class="w">          </span><span class="no">metadata: {</span><span class="w"></span>
+<span class="w">            </span><span class="no">name: context.name</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">          </span><span class="no">if parameter.repoType == "git" {</span><span class="w"></span>
+<span class="w">            </span><span class="no">kind: "GitRepository"</span><span class="w"></span>
+<span class="w">            </span><span class="no">spec: {</span><span class="w"></span>
+<span class="w">              </span><span class="no">url: parameter.repoUrl</span><span class="w"></span>
+<span class="w">              </span><span class="no">ref:</span><span class="w"></span>
+<span class="w">                </span><span class="no">branch: parameter.branch</span><span class="w"></span>
+<span class="w">              </span><span class="no">interval: parameter.pullInterval</span><span class="w"></span>
+<span class="w">            </span><span class="no">}</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">          </span><span class="no">if parameter.repoType == "helm" {</span><span class="w"></span>
+<span class="w">            </span><span class="no">kind: "HelmRepository"</span><span class="w"></span>
+<span class="w">            </span><span class="no">spec: {</span><span class="w"></span>
+<span class="w">              </span><span class="no">interval: parameter.pullInterval</span><span class="w"></span>
+<span class="w">              </span><span class="no">url:      parameter.repoUrl</span><span class="w"></span>
+<span class="w">              </span><span class="no">if parameter.secretRef != _|_ {</span><span class="w"></span>
+<span class="w">                </span><span class="no">secretRef: {</span><span class="w"></span>
+<span class="w">                  </span><span class="no">name: parameter.secretRef</span><span class="w"></span>
+<span class="w">                </span><span class="no">}</span><span class="w"></span>
+<span class="w">              </span><span class="no">}</span><span class="w"></span>
+<span class="w">            </span><span class="no">}</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">outputs: release: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">apiVersion: "helm.toolkit.fluxcd.io/v2beta1"</span><span class="w"></span>
+<span class="w">          </span><span class="no">kind:       "HelmRelease"</span><span class="w"></span>
+<span class="w">          </span><span class="no">metadata: {</span><span class="w"></span>
+<span class="w">            </span><span class="no">name: context.name</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">          </span><span class="no">spec: {</span><span class="w"></span>
+<span class="w">            </span><span class="no">interval: parameter.pullInterval</span><span class="w"></span>
+<span class="w">            </span><span class="no">chart: {</span><span class="w"></span>
+<span class="w">              </span><span class="no">spec: {</span><span class="w"></span>
+<span class="w">                </span><span class="no">chart:   parameter.chart</span><span class="w"></span>
+<span class="w">                </span><span class="no">version: parameter.version</span><span class="w"></span>
+<span class="w">                </span><span class="no">sourceRef: {</span><span class="w"></span>
+<span class="w">                  </span><span class="no">if parameter.repoType == "git" {</span><span class="w"></span>
+<span class="w">                    </span><span class="no">kind: "GitRepository"</span><span class="w"></span>
+<span class="w">                  </span><span class="no">}</span><span class="w"></span>
+<span class="w">                  </span><span class="no">if parameter.repoType == "helm" {</span><span class="w"></span>
+<span class="w">                    </span><span class="no">kind: "HelmRepository"</span><span class="w"></span>
+<span class="w">                  </span><span class="no">}</span><span class="w"></span>
+<span class="w">                  </span><span class="no">name:      context.name</span><span class="w"></span>
+<span class="w">                  </span><span class="no">namespace: context.namespace</span><span class="w"></span>
+<span class="w">                </span><span class="no">}</span><span class="w"></span>
+<span class="w">                </span><span class="no">interval: parameter.pullInterval</span><span class="w"></span>
+<span class="w">              </span><span class="no">}</span><span class="w"></span>
+<span class="w">            </span><span class="no">}</span><span class="w"></span>
+<span class="w">            </span><span class="no">if parameter.targetNamespace != _|_ {</span><span class="w"></span>
+<span class="w">              </span><span class="no">targetNamespace: parameter.targetNamespace</span><span class="w"></span>
+<span class="w">            </span><span class="no">}</span><span class="w"></span>
+<span class="w">            </span><span class="no">if parameter.values != _|_ {</span><span class="w"></span>
+<span class="w">              </span><span class="no">values: parameter.values</span><span class="w"></span>
+<span class="w">            </span><span class="no">}</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">parameter: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">repoType: "git" | "helm"</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=The Git or Helm repository URL, accept HTTP/S or SSH address as git url.</span><span class="w"></span>
+<span class="w">          </span><span class="no">repoUrl: string</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=The interval at which to check for repository and relese updates.</span><span class="w"></span>
+<span class="w">          </span><span class="no">pullInterval: *"5m" | string</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=1.The relative path to helm chart for git source. 2. chart name for helm resource</span><span class="w"></span>
+<span class="w">          </span><span class="no">chart: string</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=Chart version</span><span class="w"></span>
+<span class="w">          </span><span class="no">version?: string</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=The Git reference to checkout and monitor for changes, defaults to master branch.</span><span class="w"></span>
+<span class="w">          </span><span class="no">branch: *"master" | string</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=The name of the secret containing authentication credentials for the Helm repository.</span><span class="w"></span>
+<span class="w">          </span><span class="no">secretRef?: string</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=The namespace for helm chart</span><span class="w"></span>
+<span class="w">          </span><span class="no">targetNamespace?: string</span><span class="w"></span>
+<span class="w">          </span><span class="no">// +usage=Chart version</span><span class="w"></span>
+<span class="w">          </span><span class="no">value?: #nestedmap</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">#nestedmap: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">...</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+</code></pre></div></p>
+<h3 id="traitdefinition">TraitDefinition<a class="headerlink" href="#traitdefinition" title="Permanent link">¶</a></h3>
+<p>TraitDefinition provides a series of DevOps actions for the component that can be bound on demand. 
+These operation and maintenance actions are usually provided by the platform administrator, 
+such as adding a load balancing strategy, routing strategy, or performing scaler, 
+gray release strategy, etc.
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TraitDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;TraitDefinition name&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition.oam.dev/description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;function description&gt;</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">definition</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;corresponding Kubernetes resource group&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;corresponding Kubernetes resource type&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">workloadRefPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;The path to the reference field of the Workload object in the Trait&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">podDisruptive</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;whether the parameter update of Trait cause the underlying resource (pod) to restart&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">manageWorkload</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;Whether the workload is managed by this Trait&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">skipRevisionAffect</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;Whether this Trait is not included in the calculation of version changes&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">appliesToWorkloads</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;Workload that TraitDefinition can adapt to&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">conflictsWith</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;other Traits that conflict with this&gt;&lt;&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">revisionEnabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;whether Trait is aware of changes in component version&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w">  </span><span class="c1"># Abstract</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"> </span><span class="c1"># There are many abstracts</span><span class="w"></span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;CUE format template&gt;</span><span class="w"></span>
+</code></pre></div>
+Let's look at a practical example of Trait Definition:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TraitDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition.oam.dev/description</span><span class="p">:</span><span class="w"> </span><span class="s">"configure</span><span class="nv"> </span><span class="s">k8s</span><span class="nv"> </span><span class="s">Horizontal</span><span class="nv"> </span><span class="s">Pod</span><span class="nv"> </span><span class="s">Autoscaler</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">Component</span><span class="nv"> </span><span class="s">which</span><span class="nv"> </span><span class="s">using</span><span class="nv"> </span><span class="s">Deployment</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">worklaod"</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hpa</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">appliesToWorkloads</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deployments.apps</span><span class="w"></span>
+<span class="w">  </span><span class="nt">workloadRefPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">spec.scaleTargetRef</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">        </span><span class="no">outputs: hpa: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">apiVersion: "autoscaling/v2beta2"</span><span class="w"></span>
+<span class="w">          </span><span class="no">kind:       "HorizontalPodAutoscaler"</span><span class="w"></span>
+<span class="w">          </span><span class="no">spec: {</span><span class="w"></span>
+<span class="w">            </span><span class="no">minReplicas: parameter.min</span><span class="w"></span>
+<span class="w">            </span><span class="no">maxReplicas: parameter.max</span><span class="w"></span>
+<span class="w">            </span><span class="no">metrics: [{</span><span class="w"></span>
+<span class="w">              </span><span class="no">type: "Resource"</span><span class="w"></span>
+<span class="w">              </span><span class="no">resource: {</span><span class="w"></span>
+<span class="w">                </span><span class="no">name: "cpu"</span><span class="w"></span>
+<span class="w">                </span><span class="no">target: {</span><span class="w"></span>
+<span class="w">                  </span><span class="no">type:               "Utilization"</span><span class="w"></span>
+<span class="w">                  </span><span class="no">averageUtilization: parameter.cpuUtil</span><span class="w"></span>
+<span class="w">                </span><span class="no">}</span><span class="w"></span>
+<span class="w">              </span><span class="no">}</span><span class="w"></span>
+<span class="w">            </span><span class="no">}]</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">parameter: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">min:     *1 | int</span><span class="w"></span>
+<span class="w">          </span><span class="no">max:     *10 | int</span><span class="w"></span>
+<span class="w">          </span><span class="no">cpuUtil: *50 | int</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+</code></pre></div>
+<h3 id="policydefinition">PolicyDefinition<a class="headerlink" href="#policydefinition" title="Permanent link">¶</a></h3>
+<p>PolicyDefinition is simimarly to TraitDefinition, the difference is that 
+TraitDefinition acts on a single component but PolicyDefinition is to act on 
+the entire application as a whole (multiple components).</p>
+<p>It can provide global policy for applications, commonly including 
+global security policies (such as RBAC permissions, auditing, and key management), 
+application insights (such as application SLO management, etc.).
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PolicyDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;PolicyDefinition name&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition.oam.dev/description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;function description&gt;</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w">  </span><span class="c1"># strategy description</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;CUE format template&gt;</span><span class="w"></span>
+<span class="nt">A specific example is shown below</span><span class="p">:</span><span class="w"></span>
+
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PolicyDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">env-binding</span><span class="w"></span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition.oam.dev/description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;Provide differentiated configuration and environmental scheduling strategies for applications&gt;</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">        </span><span class="no">output: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">apiVersion: "core.oam.dev/v1alpha1"</span><span class="w"></span>
+<span class="w">          </span><span class="no">kind:       "EnvBinding"</span><span class="w"></span>
+<span class="w">          </span><span class="no">spec: {</span><span class="w"></span>
+<span class="w">            </span><span class="no">engine: parameter.engine</span><span class="w"></span>
+<span class="w">            </span><span class="no">appTemplate: {</span><span class="w"></span>
+<span class="w">              </span><span class="no">apiVersion: "core.oam.dev/v1beta1"</span><span class="w"></span>
+<span class="w">              </span><span class="no">kind:       "Application"</span><span class="w"></span>
+<span class="w">              </span><span class="no">metadata: {</span><span class="w"></span>
+<span class="w">                </span><span class="no">name:      context.appName</span><span class="w"></span>
+<span class="w">                </span><span class="no">namespace: context.namespace</span><span class="w"></span>
+<span class="w">              </span><span class="no">}</span><span class="w"></span>
+<span class="w">              </span><span class="no">spec: {</span><span class="w"></span>
+<span class="w">                </span><span class="no">components: context.components</span><span class="w"></span>
+<span class="w">              </span><span class="no">}</span><span class="w"></span>
+<span class="w">            </span><span class="no">}</span><span class="w"></span>
+<span class="w">            </span><span class="no">envs: parameter.envs</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">#Env: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">name: string</span><span class="w"></span>
+<span class="w">          </span><span class="no">patch: components: [...{</span><span class="w"></span>
+<span class="w">            </span><span class="no">name: string</span><span class="w"></span>
+<span class="w">            </span><span class="no">type: string</span><span class="w"></span>
+<span class="w">            </span><span class="no">properties: {...}</span><span class="w"></span>
+<span class="w">          </span><span class="no">}]</span><span class="w"></span>
+<span class="w">          </span><span class="no">placement: clusterSelector: {</span><span class="w"></span>
+<span class="w">            </span><span class="no">labels?: [string]: string</span><span class="w"></span>
+<span class="w">            </span><span class="no">name?: string</span><span class="w"></span>
+<span class="w">          </span><span class="no">}</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">parameter: {</span><span class="w"></span>
+<span class="w">          </span><span class="no">engine: *"ocm" | string</span><span class="w"></span>
+<span class="w">          </span><span class="no">envs: [...#Env]</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+</code></pre></div></p>
+<h3 id="workflowstepdefinition">WorkflowStepDefinition<a class="headerlink" href="#workflowstepdefinition" title="Permanent link">¶</a></h3>
+<p>WorkflowStepDefinition is used to describe a series of
+steps that can be declared in the Workflow resource.
+The various stemps can perform operations like deployment, status check, 
+data output, dependent input, external script call, etc.</p>
+<h4 id="built-in-workflow-steps">Built-in Workflow Steps<a class="headerlink" href="#built-in-workflow-steps" title="Permanent link">¶</a></h4>
+<p>The following are the built-in workflow types that can be used by WorkflowStepDefinition:
+   * suspend: Simplest step type that suspends and waits for manual approval to proceed.
+   * deploy2env: The application is deployed to the designated environment defined by EnvBinding.
+   * deploy-cloud-resource: Cloud resource applications are delivered to the designated Target. Note that the difference between this type of step and deploy2env is that the CR resource created by the control cloud resource is deployed to the control cluster. After the service is created and the access key (Secret) is generated, the Secret is distributed to the Target designated cluster and Namespace.
+   * share-cloud-resource: Distribute the secret generated by a cloud service to the specified targets. Thus when one cloud service is created in a multi-cluster application, and its access key can be shared to the other of multiple clusters.
+   * notification: three notification modes: DingTalk, Mail, and Slack, place them in any stage of the workflow to implement message notifications.
+   * webhook: place it at any stage of the workflow to call back external systems.)</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WorkflowStepDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;WorkflowStepDefinition name&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">definition.oam.dev/description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;function description&gt;</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w">  </span><span class="c1"># node description</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;CUE format template&gt;</span><span class="w"></span>
+</code></pre></div>
+<p>Sample WorkflowStepDefinition is as follows:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WorkflowStepDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apply-component</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">schematic</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">cue</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">template</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"></span>
+<span class="w">        </span><span class="no">import ("vela/op")</span><span class="w"></span>
+<span class="w">        </span><span class="no">parameter: {</span><span class="w"></span>
+<span class="w">           </span><span class="no">component: string</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">// load component from application</span><span class="w"></span>
+<span class="w">        </span><span class="no">component: op.#Load &amp; {</span><span class="w"></span>
+<span class="w">           </span><span class="no">component: parameter.component</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">// apply workload to kubernetes cluster</span><span class="w"></span>
+<span class="w">        </span><span class="no">apply: op.#ApplyComponent &amp; {</span><span class="w"></span>
+<span class="w">           </span><span class="no">component: parameter.name</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+
+<span class="w">        </span><span class="no">// wait until workload.status equal "Running"</span><span class="w"></span>
+<span class="w">        </span><span class="no">wait: op.#ConditionalWait &amp; {</span><span class="w"></span>
+<span class="w">           </span><span class="no">continue: apply.status.phase =="Running"</span><span class="w"></span>
+<span class="w">        </span><span class="no">}</span><span class="w"></span>
+</code></pre></div></p>
+<h4 id="declare-infrastructure">Declare Infrastructure<a class="headerlink" href="#declare-infrastructure" title="Permanent link">¶</a></h4>
+<p>It was noted above you can use the deploy-cloud-resource and share-cloud-resource workflow types
+to deploy cloud infrastructure. This is the
+<a href="https://kubevela.io/docs/next/tutorials/consume-cloud-services">kubevela guide</a>, currently it is
+using Terraform provider to implement the provisioning. This is the
+<a href="https://github.com/oam-dev/kubevela/blob/master/pkg/workflow/providers/terraform/terraform.go">terraform provider source</a>,
+if you want more detail this code has been 
+<a href="https://github.com/oam-dev/kubevela/pull/2734">recently mergered</a>
+into Kubevela.</p>
+<p>Here is a sample that deploys RDS databases:
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rds-app</span><span class="w"></span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">project-1</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alibaba-rds</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">instance_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">        </span><span class="nt">account_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubevela</span><span class="w"></span>
+<span class="w">        </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-password</span><span class="w"></span>
+<span class="w">        </span><span class="nt">writeConnectionSecretToRef</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">project-1-rds-conn-credential</span><span class="w"></span>
+<span class="w">  </span><span class="nt">policies</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">env-policy</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">env-binding</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">envs</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="c1"># 部署 RDS 给杭州集群</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hangzhou</span><span class="w"></span>
+<span class="w">            </span><span class="nt">placement</span><span class="p">:</span><span class="w"></span>
+<span class="w">              </span><span class="nt">clusterSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-hangzhou</span><span class="w"></span>
+<span class="w">            </span><span class="nt">patch</span><span class="p">:</span><span class="w"></span>
+<span class="w">              </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alibaba-rds</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">                    </span><span class="c1"># region: hangzhou</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">instance_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hangzhou_db</span><span class="w"></span>
+<span class="w">          </span><span class="c1"># 部署 RDS 给香港集群</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hongkong</span><span class="w"></span>
+<span class="w">            </span><span class="nt">placement</span><span class="p">:</span><span class="w"></span>
+<span class="w">              </span><span class="nt">clusterSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-hongkong</span><span class="w"></span>
+<span class="w">              </span><span class="nt">namespaceSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hk-project-1</span><span class="w"></span>
+<span class="w">            </span><span class="nt">patch</span><span class="p">:</span><span class="w"></span>
+<span class="w">              </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alibaba-rds</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">                    </span><span class="c1"># region: hongkong</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">instance_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hongkong_db</span><span class="w"></span>
+<span class="w">                    </span><span class="nt">writeConnectionSecretToRef</span><span class="p">:</span><span class="w"></span>
+<span class="w">                      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hk-project-rds-credential</span><span class="w"></span>
+
+<span class="w">  </span><span class="nt">workflow</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="c1"># 部署 RDS 给杭州区用</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-hangzhou-rds</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-cloud-resource</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hangzhou</span><span class="w"></span>
+<span class="w">      </span><span class="c1"># 将给杭州区用的 RDS 共享给北京区</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bind-hangzhou-rds-to-beijing</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bind-cloud-resource</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hangzhou</span><span class="w"></span>
+<span class="w">          </span><span class="nt">placements</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-beijing</span><span class="w"></span>
+<span class="w">      </span><span class="c1"># 部署 RDS 给香港区用</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-hongkong-rds</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-cloud-resource</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hongkong</span><span class="w"></span>
+<span class="w">      </span><span class="c1"># 将给香港区用的 RDS 共享给香港区其他项目用</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">share-hongkong-rds-to-other-namespace</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">share-cloud-resource</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hongkong</span><span class="w"></span>
+<span class="w">          </span><span class="nt">placements</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-hongkong</span><span class="w"></span>
+<span class="w">              </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hk-project-2</span><span class="w"></span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-hongkong</span><span class="w"></span>
+<span class="w">              </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hk-project-3</span><span class="w"></span>
+</code></pre></div></p>
+<h3 id="workloaddefinition">WorkloadDefinition<a class="headerlink" href="#workloaddefinition" title="Permanent link">¶</a></h3>
+<p>WorkloadDefinition is a system-level feature. It's not a field that users should
+care about but as metadata checked, verified, and used by the OAM system itself.
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WorkloadDefinition</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;WorkloadDefinition name&gt;</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">definitionRef</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;corresponding Kubernetes resource group&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;corresponding Kubernetes resource version&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">podSpecPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;path to the Pod field in the Workload&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="nt">childResourceKinds</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;resource group&gt;</span><span class="w"></span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;resource type&gt;</span><span class="w"></span>
+</code></pre></div>
+In addition, other Kubernetes resource type that need to be introduced into 
+OAM model in the future will also be added as fields to the workload definition.</p>
+<p>You can specify a generated component instance revision with field spec.components[*].externalRevision 
+in Application like below:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">express-server</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice</span><span class="w"></span>
+<span class="w">      </span><span class="nt">externalRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">express-server-v1</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stefanprodan/podinfo:4.0.3</span><span class="w"></span>
+</code></pre></div>
+If the field is not specified, it will generated by the name rule <component-name>-<revision-number>.</revision-number></component-name></p>
+<p>After the Application created, it will generate a ControllerRevision object for each component.</p>
+<p>Get the revision for component instance
+<div class="highlight"><pre><span></span><code>$ kubectl get controllerrevision -l controller.oam.dev/component<span class="o">=</span>express-server
+NAME                CONTROLLER                       REVISION   AGE
+express-server-v1   application.core.oam.dev/myapp   <span class="m">1</span>          2m40s
+express-server-v2   application.core.oam.dev/myapp   <span class="m">2</span>          2m12s
+</code></pre></div>
+You can specify the component revision for component rolling update.</p>
+<p>When updating an application entity except workflow, 
+KubeVela will create a new revision as a snapshot for this change.</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get apprev -l app.oam.dev/name<span class="o">=</span>myapp
+NAME       AGE
+myapp-v1   54m
+myapp-v2   53m
+myapp-v3   18s
+</code></pre></div>
+<h3 id="applicationrevision">ApplicationRevision<a class="headerlink" href="#applicationrevision" title="Permanent link">¶</a></h3>
+<p>You can get all the information related with the application 
+in the application revision, including the application spec, 
+and all related definitions.</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ApplicationRevision</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">app.oam.dev/app-revision-hash</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">a74b4a514ba2fc08</span><span class="w"></span>
+<span class="w">    </span><span class="nt">app.oam.dev/name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp-v3</span><span class="w"></span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"></span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span><span class="w"></span>
+<span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"></span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">express-server</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stefanprodan/podinfo:5.0.3</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice@v1</span><span class="w"></span>
+<span class="w">    </span><span class="w w-Error"> </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">  </span><span class="nt">componentDefinitions</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">webservice</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ComponentDefinition</span><span class="w"></span>
+<span class="w">      </span><span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice</span><span class="w"></span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vela-system</span><span class="w"></span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">schematic</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">cue</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+<span class="w">  </span><span class="nt">traitDefinitions</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+</code></pre></div>
+Live-diff helps you to have a preview of what would change if you're going to 
+upgrade an application without making any changes to the living cluster. 
+This feature is extremely useful for serious production deployment, 
+and make the upgrade under control</p>
+<p>It basically generates a diff between the specific revision of 
+running instance and the local candidate application. 
+The result shows the changes (added/modified/removed/no_change) of 
+the application as well as its sub-resources, such as components and traits.</p>
+<p>Assume we're going to upgrade the application like below.</p>
+<p><div class="highlight"><pre><span></span><code><span class="c1"># new-app.yaml</span><span class="w"></span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">express-server</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice@v1</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crccheck/hello-world</span><span class="w"> </span><span class="c1"># change the image</span><span class="w"></span>
+</code></pre></div>
+Run live-diff like this:</p>
+<p><div class="highlight"><pre><span></span><code>vela live-diff -f new-app.yaml -r myapp-v1
+-r or --revision is a flag that specifies the name of a living ApplicationRevision with which you want to compare the updated application.
+
+-c or --context is a flag that specifies the number of lines shown around a change. The unchanged lines which are out of the context of a change will be omitted. It<span class="err">'</span>s useful <span class="k">if</span> the diff result contains a lot of unchanged content <span class="k">while</span> you just want to focus on the changed ones.
+</code></pre></div>
+Click to view the details of diff result
+VelaUX uses database for version record, we also recommend you 
+to use a database instead of relying on Kubernetes etcd for versioning.</p>
+<p>When the capabilities(Component or Trait) changes, 
+KubeVela will generate a definition revision automatically.</p>
+<p>Check ComponentDefinition Revision
+<div class="highlight"><pre><span></span><code>$  kubectl get definitionrevision -l<span class="o">=</span><span class="s2">"componentdefinition.oam.dev/name=webservice"</span> -n vela-system
+NAME            REVISION   HASH               TYPE
+webservice-v1   <span class="m">1</span>          3f6886d9832021ba   Component
+webservice-v2   <span class="m">2</span>          b3b9978e7164d973   Component
+</code></pre></div>
+Check TraitDefinition Revision
+<div class="highlight"><pre><span></span><code>$ kubectl get definitionrevision -l<span class="o">=</span><span class="s2">"trait.oam.dev/name=rollout"</span> -n vela-system
+NAME         REVISION   HASH               TYPE
+rollout-v1   <span class="m">1</span>          e441f026c1884b14   Trait
+</code></pre></div>
+The best way to control version is using a new name for every definition version.</p>
+<p>Specify Component/Trait Capability Revision in Application:
+Users can specify the revision with @version approach, for example, if a user 
+want to stick to using the v1 revision of webservice component.</p>
+<p>System admin can also write a webhook to inject the version automatically.
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">express-server</span><span class="w"></span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice@v1</span><span class="w"></span>
+<span class="w">    </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">stefanprodan/podinfo:4.0.3</span><span class="w"></span>
+</code></pre></div>
+In this way, if system admin changes the ComponentDefinition, it won't affect your application.</p>
+<p>If no revision specified, KubeVela will always use the latest
+revision when you upgrade your application.</p>
+<p>Users usually have two or more environments to deploy applications to. 
+For example, dev environment to test the application code, and 
+production environment to deploy applications to serve live traffic. 
+For different environments, the deployment configuration also has some nuance.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-app</span><span class="w"></span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">demo</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crccheck/hello-world</span><span class="w"></span>
+<span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span><span class="w"></span>
+<span class="w">      </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaler</span><span class="w"></span>
+<span class="w">          </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data-worker</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span><span class="w"></span>
+<span class="w">        </span><span class="nt">cmd</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sleep</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'1000000'</span><span class="w"></span>
+<span class="w">  </span><span class="nt">policies</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-multi-env-policy</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">env-binding</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">envs</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span><span class="w"></span>
+<span class="w">            </span><span class="nt">placement</span><span class="p">:</span><span class="w"> </span><span class="c1"># selecting the namespace (in local cluster) to deploy to</span><span class="w"></span>
+<span class="w">              </span><span class="nt">namespaceSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span><span class="w"></span>
+<span class="w">            </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span><span class="c1"># selecting which component to use</span><span class="w"></span>
+<span class="w">              </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data-worker</span><span class="w"></span>
+
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span><span class="w"></span>
+<span class="w">            </span><span class="nt">placement</span><span class="p">:</span><span class="w"> </span><span class="c1"># selecting the cluster to deploy to</span><span class="w"></span>
+<span class="w">              </span><span class="nt">clusterSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-staging</span><span class="w"></span>
+
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w"></span>
+<span class="w">            </span><span class="nt">placement</span><span class="p">:</span><span class="w"> </span><span class="c1"># selecting both namespace and cluster to deploy to</span><span class="w"></span>
+<span class="w">              </span><span class="nt">clusterSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-prod</span><span class="w"></span>
+<span class="w">              </span><span class="nt">namespaceSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w"></span>
+<span class="w">            </span><span class="nt">patch</span><span class="p">:</span><span class="w"> </span><span class="c1"># overlay patch on above components</span><span class="w"></span>
+<span class="w">              </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaler</span><span class="w"></span>
+<span class="w">                      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"></span>
+
+<span class="w">  </span><span class="nt">workflow</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="c1"># deploy to test env</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-test</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-multi-env-policy</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span><span class="w"></span>
+
+<span class="w">      </span><span class="c1"># deploy to staging env</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-staging</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-multi-env-policy</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span><span class="w"></span>
+
+<span class="w">      </span><span class="c1"># manual check</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">manual-approval</span><span class="w"> </span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">suspend</span><span class="w"></span>
+
+<span class="w">      </span><span class="c1"># deploy to prod env</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-prod</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-multi-env-policy</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w"></span>
+</code></pre></div>
+<p>You can test the Application versioning using policy-demo example.</p>
+<p>Before deploying this example application, you need a namespace 
+named demo in the current cluster and namespace test in both 
+the current cluster and the staging cluster. 
+You need namespace prod in cluster cluster-prod as well. 
+You can create it by executing cmd kubectl create ns <namespace>.</namespace></p>
+<p>vela up -f app.yaml
+After the Application is created, a configured Application will be created under the demo namespace.</p>
+<div class="highlight"><pre><span></span><code>$ kubectl get app -n demo
+NAME          COMPONENT            TYPE         PHASE     HEALTHY   STATUS   AGE
+example-app   hello-world-server   webservice   running                      25s
+</code></pre></div>
+<h3 id="envbindings">EnvBindings<a class="headerlink" href="#envbindings" title="Permanent link">¶</a></h3>
+<p>Kubevella supports multi-cluster application delivery using EnvBindings reource.</p>
+<p>You can simply join an existing cluster into KubeVela by specify its KubeConfig like below:
+<div class="highlight"><pre><span></span><code>vela cluster join &lt;your kubeconfig path&gt;
+</code></pre></div>
+It will use field context.cluster in KubeConfig as the cluster name 
+automatically, you can also specify the name by --name parameter. For example:
+<div class="highlight"><pre><span></span><code>vela cluster join stage-cluster.kubeconfig --name cluster-staging
+vela cluster join prod-cluster.kubeconfig --name cluster-prod
+</code></pre></div>
+After clusters joined, you could list all clusters managed by KubeVela currently.
+<div class="highlight"><pre><span></span><code>$ vela cluster list
+CLUSTER         TYPE    ENDPOINT                
+cluster-prod    tls     https://47.88.4.97:6443 
+cluster-staging tls     https://47.88.7.230:6443
+</code></pre></div>
+You can also detach a cluster if you're not using it any more.
+<div class="highlight"><pre><span></span><code>$ vela cluster detach cluster-prod
+</code></pre></div>
+If there's still any application running in the cluster, the command will be rejected.</p>
+<p>To test this on my local system with kubevela running on kind, I created a minikube cluser
+and tried to added it to my kubevela setup. It looks like it is not setup well for local
+testing. If I have my context set to minikube or kind I can not get the command to work
+the errors are different but still does not work, it looks like vela command line is affected
+by the local kubeconfig context setting.
+<div class="highlight"><pre><span></span><code>minikube start
+kcluster minikube
+k create ns vela-system
+
+kcluster kind-kind
+vela cluster join ~/.kube/config --name minikube
+Error: failed to ensure vela-system namespace installed <span class="k">in</span> cluster minikube: failed to check <span class="k">if</span> namespace vela-system exists: dial tcp <span class="m">127</span>.0.0.1:54363: connect: connection refused
+
+kcluster minikube
+❯ vela cluster join ~/.kube/config --name minikube
+Error: failed to get cluster secret namespace, please ensure cluster gateway is correctly deployed: ClusterGateway APIService v1alpha1.cluster.core.oam.dev is not found
+</code></pre></div>
+<strong><em>TODO</em></strong>
+Looking at the 
+<a href="https://github.com/oam-dev/kubevela/blob/master/references/cli/cluster.go">kubevela CLI cluster source code</a> 
+it looks like the multi-cluster capability is built on
+<a href="https://open-cluster-management.io/concepts/architecture/">open-cluster-management.io</a>
+<a href="https://github.com/oam-dev/kubevela/blob/master/pkg/multicluster/virtual_cluster.go#L28">as you see in kubevela multi-cluster import</a>
+and I might need to install more packages on my system to get this to work.</p>
+<p>KubeVela regards a Kubernetes cluster as an environment, so you can deploy an 
+application into one or more environments.</p>
+<p>KubeVela can provide many strategies to deploy an application to
+multiple clusters by composing env-binding policy and workflow steps.</p>
+<p>You can have a glimpse of how does it work as below
+<strong><em>NOTE: The EnvBinding is bound to Policy not a Trait:</em></strong>
+<img alt="image for workflow with envbindings" src="img/workflow-multi-env.png"/></p>
+<p>Below is a concrete example, that deploys to a staging environment first, 
+we manually check that the application is running well, and finally 
+maually promote to production environment.</p>
+<p>For different environments, the deployment configuration can also have some nuance. 
+In the staging environment, we only need one replica for the webservice and do not need the worker. 
+In the production environment, we setup 3 replicas for the webservice and enable the worker.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1beta1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Application</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-app</span><span class="w"></span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">crccheck/hello-world</span><span class="w"></span>
+<span class="w">        </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8000</span><span class="w"></span>
+<span class="w">      </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaler</span><span class="w"></span>
+<span class="w">          </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">            </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data-worker</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span><span class="w"></span>
+<span class="w">        </span><span class="nt">cmd</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sleep</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'1000000'</span><span class="w"></span>
+<span class="w">  </span><span class="nt">policies</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-multi-env-policy</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">env-binding</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">envs</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span><span class="w"></span>
+<span class="w">            </span><span class="nt">placement</span><span class="p">:</span><span class="w"> </span><span class="c1"># selecting the cluster to deploy to</span><span class="w"></span>
+<span class="w">              </span><span class="nt">clusterSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-staging</span><span class="w"></span>
+<span class="w">            </span><span class="nt">selector</span><span class="p">:</span><span class="w"> </span><span class="c1"># selecting which component to use</span><span class="w"></span>
+<span class="w">              </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w"></span>
+<span class="w">            </span><span class="nt">placement</span><span class="p">:</span><span class="w"></span>
+<span class="w">              </span><span class="nt">clusterSelector</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster-prod</span><span class="w"></span>
+<span class="w">            </span><span class="nt">patch</span><span class="p">:</span><span class="w"> </span><span class="c1"># overlay patch on above components</span><span class="w"></span>
+<span class="w">              </span><span class="nt">components</span><span class="p">:</span><span class="w"></span>
+<span class="w">                </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">webservice</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">                    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaler</span><span class="w"></span>
+<span class="w">                      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">                        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"></span>
+
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health-policy-demo</span><span class="w"></span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health</span><span class="w"></span>
+<span class="w">      </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">probeInterval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w"></span>
+<span class="w">        </span><span class="nt">probeTimeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w"></span>
+
+<span class="w">  </span><span class="nt">workflow</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="c1"># deploy to staging env</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-staging</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-multi-env-policy</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span><span class="w"></span>
+
+<span class="w">      </span><span class="c1"># manual check</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">manual-approval</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">suspend</span><span class="w"></span>
+
+<span class="w">      </span><span class="c1"># deploy to prod env</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-prod</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">        </span><span class="nt">properties</span><span class="p">:</span><span class="w"></span>
+<span class="w">          </span><span class="nt">policy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-multi-env-policy</span><span class="w"></span>
+<span class="w">          </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w"></span>
+</code></pre></div>
+<p>After the application deployed, it will run as the workflow steps.</p>
+<p>You can refer to EnvBinding and Health Check policy user guide for parameter details.</p>
+<p>It will deploy application to staging environment first, you can check the Application status by:
+<div class="highlight"><pre><span></span><code>&gt; kubectl get application example-app
+NAME          COMPONENT            TYPE         PHASE                HEALTHY   STATUS       AGE
+example-app   hello-world-server   webservice   workflowSuspending   <span class="nb">true</span>      Ready:1/1    10s
+</code></pre></div></p>
+<p>We can see that the workflow is suspended at manual-approval:
+<div class="highlight"><pre><span></span><code><span class="nn">...</span><span class="w"></span>
+<span class="w">  </span><span class="nt">status</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">workflow</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">appRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-app-v1:44a6447e3653bcc2</span><span class="w"></span>
+<span class="w">      </span><span class="nt">contextBackend</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workflow-example-app-context</span><span class="w"></span>
+<span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">56ddcde6-8a83-4ac3-bf94-d19f8f55eb3d</span><span class="w"></span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StepByStep</span><span class="w"></span>
+<span class="w">      </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">wek2b31nai</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-staging</span><span class="w"></span>
+<span class="w">        </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">succeeded</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7j5eb764mk</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">manual-approval</span><span class="w"></span>
+<span class="w">        </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">succeeded</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">suspend</span><span class="w"></span>
+<span class="w">      </span><span class="nt">suspend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">terminated</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">      </span><span class="nt">waitCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+</code></pre></div></p>
+<p>You can also check the health status in the status.service field below.
+<div class="highlight"><pre><span></span><code><span class="nn">...</span><span class="w"></span>
+<span class="w">  </span><span class="nt">status</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span><span class="w"></span>
+<span class="w">      </span><span class="nt">healthy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">'Ready:1/1</span><span class="nv"> </span><span class="s">'</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+<span class="w">      </span><span class="nt">scopes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1alpha2</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HealthScope</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health-policy-demo</span><span class="w"></span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span><span class="w"></span>
+<span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6e6230a3-93f3-4dba-ba09-dd863b6c4a88</span><span class="w"></span>
+<span class="w">      </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">healthy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaler</span><span class="w"></span>
+<span class="w">      </span><span class="nt">workloadDefinition</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span><span class="w"></span>
+</code></pre></div></p>
+<p>You can use resume the workflow with vela command after everything verified in statging cluster:
+<div class="highlight"><pre><span></span><code>&gt; vela workflow resume example-app
+Successfully resume workflow: example-app
+</code></pre></div></p>
+<p>Recheck the Application status:
+<div class="highlight"><pre><span></span><code>&gt; kubectl get application example-app
+NAME          COMPONENT            TYPE         PHASE     HEALTHY   STATUS       AGE
+example-app   hello-world-server   webservice   running   <span class="nb">true</span>      Ready:1/1    62s
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">status</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">staging</span><span class="w"></span>
+<span class="w">      </span><span class="nt">healthy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">'Ready:1/1</span><span class="nv"> </span><span class="s">'</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+<span class="w">      </span><span class="nt">scopes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1alpha2</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HealthScope</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health-policy-demo</span><span class="w"></span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"></span>
+<span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9174ac61-d262-444b-bb6c-e5f0caee706a</span><span class="w"></span>
+<span class="w">      </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">healthy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaler</span><span class="w"></span>
+<span class="w">      </span><span class="nt">workloadDefinition</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w"></span>
+<span class="w">      </span><span class="nt">healthy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">'Ready:3/3</span><span class="nv"> </span><span class="s">'</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world-server</span><span class="w"></span>
+<span class="w">      </span><span class="nt">scopes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1alpha2</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HealthScope</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health-policy-demo</span><span class="w"></span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"></span>
+<span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9174ac61-d262-444b-bb6c-e5f0caee706a</span><span class="w"></span>
+<span class="w">      </span><span class="nt">traits</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">healthy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">scaler</span><span class="w"></span>
+<span class="w">      </span><span class="nt">workloadDefinition</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span><span class="w"></span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w"></span>
+<span class="w">      </span><span class="nt">healthy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w"></span>
+<span class="w">      </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="s">'Ready:1/1</span><span class="nv"> </span><span class="s">'</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">data-worker</span><span class="w"></span>
+<span class="w">      </span><span class="nt">scopes</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core.oam.dev/v1alpha2</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HealthScope</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">health-policy-demo</span><span class="w"></span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span><span class="w"></span>
+<span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9174ac61-d262-444b-bb6c-e5f0caee706a</span><span class="w"></span>
+<span class="w">      </span><span class="nt">workloadDefinition</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span><span class="w"></span>
+</code></pre></div>
+<p>All the step status in workflow is succeeded:
+<div class="highlight"><pre><span></span><code><span class="nn">...</span><span class="w"></span>
+<span class="w">  </span><span class="nt">status</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">workflow</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">appRevision</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example-app-v1:44a6447e3653bcc2</span><span class="w"></span>
+<span class="w">      </span><span class="nt">contextBackend</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span><span class="w"></span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workflow-example-app-context</span><span class="w"></span>
+<span class="w">        </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">e1e7bd2d-8743-4239-9de7-55a0dd76e5d3</span><span class="w"></span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StepByStep</span><span class="w"></span>
+<span class="w">      </span><span class="nt">steps</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">q8yx7pr8wb</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-staging</span><span class="w"></span>
+<span class="w">        </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">succeeded</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6oxrtvki9o</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">manual-approval</span><span class="w"></span>
+<span class="w">        </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">succeeded</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">suspend</span><span class="w"></span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uk287p8c31</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy-prod</span><span class="w"></span>
+<span class="w">        </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">succeeded</span><span class="w"></span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deploy2env</span><span class="w"></span>
+<span class="w">      </span><span class="nt">suspend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">      </span><span class="nt">terminated</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w"></span>
+<span class="w">      </span><span class="nt">waitCount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w"></span>
+</code></pre></div></p>
+<h2 id="que">QUE<a class="headerlink" href="#que" title="Permanent link">¶</a></h2>
+<p>Kubevela integrates 
+<a href="https://cuelang.org/docs/about/">CUE</a> 
+as a first class object to encapsulate, abstract and create Kubernetes resources.
+The CUE language and its own CLI was intended to solve Kubernetes configuration
+it replaces the JSON/YAML with its own tooling. </p>
+<p>This is a good article about complexity of traditional tooling for Kubernetes
+and where 
+<a href="https://blog.cedriccharly.com/post/20191109-the-configuration-complexity-curse/">CUE addressing Kubernetes</a></p>
+<p>This is a good primer showing how CUE has a good way to represent Schema and Data:
+<div class="highlight"><pre><span></span><code><span class="err">//</span><span class="w"> </span><span class="err">Schema</span><span class="w"></span>
+<span class="err">mu</span><span class="kc">n</span><span class="err">icipali</span><span class="kc">t</span><span class="err">y</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kc">na</span><span class="err">me</span><span class="p">:</span><span class="w">    </span><span class="err">s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"></span>
+<span class="w">    </span><span class="err">pop</span><span class="p">:</span><span class="w">     </span><span class="err">i</span><span class="kc">nt</span><span class="w"></span>
+<span class="w">    </span><span class="err">capi</span><span class="kc">tal</span><span class="p">:</span><span class="w"> </span><span class="err">bool</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="err">//</span><span class="w"> </span><span class="err">Schema</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">Da</span><span class="kc">ta</span><span class="w"></span>
+<span class="err">largeCapi</span><span class="kc">tal</span><span class="p">:</span><span class="w"> </span><span class="err">mu</span><span class="kc">n</span><span class="err">icipali</span><span class="kc">t</span><span class="err">y</span><span class="w"></span>
+<span class="err">largeCapi</span><span class="kc">tal</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kc">na</span><span class="err">me</span><span class="p">:</span><span class="w">    </span><span class="err">s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"></span>
+<span class="w">    </span><span class="err">pop</span><span class="p">:</span><span class="w">     </span><span class="err">&gt;</span><span class="mi">5</span><span class="err">M</span><span class="w"></span>
+<span class="w">    </span><span class="err">capi</span><span class="kc">tal</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="err">//</span><span class="w"> </span><span class="err">Da</span><span class="kc">ta</span><span class="w"></span>
+<span class="err">moscow</span><span class="p">:</span><span class="w"> </span><span class="err">largeCapi</span><span class="kc">tal</span><span class="w"></span>
+<span class="err">moscow</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kc">na</span><span class="err">me</span><span class="p">:</span><span class="w">    </span><span class="s2">"Moscow"</span><span class="w"></span>
+<span class="w">    </span><span class="err">pop</span><span class="p">:</span><span class="w">     </span><span class="mf">11.92</span><span class="err">M</span><span class="w"></span>
+<span class="w">    </span><span class="err">capi</span><span class="kc">tal</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+This example shows the CUE data validation capability:
+<div class="highlight"><pre><span></span><code><span class="err">Spec</span><span class="w"> </span><span class="p">::</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="err">ki</span><span class="kc">n</span><span class="err">d</span><span class="p">:</span><span class="w"> </span><span class="err">s</span><span class="kc">tr</span><span class="err">i</span><span class="kc">n</span><span class="err">g</span><span class="w"></span>
+
+<span class="w">    </span><span class="kc">na</span><span class="err">me</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kc">f</span><span class="err">irs</span><span class="kc">t</span><span class="p">:</span><span class="w">   </span><span class="err">!=</span><span class="s2">""</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">mus</span><span class="kc">t</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">speci</span><span class="kc">f</span><span class="err">ied</span><span class="w"> </span><span class="err">a</span><span class="kc">n</span><span class="err">d</span><span class="w"> </span><span class="kc">n</span><span class="err">o</span><span class="kc">n</span><span class="mf">-e</span><span class="err">mp</span><span class="kc">t</span><span class="err">y</span><span class="w"></span>
+<span class="w">        </span><span class="err">middle?</span><span class="p">:</span><span class="w"> </span><span class="err">!=</span><span class="s2">""</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">op</span><span class="kc">t</span><span class="err">io</span><span class="kc">nal</span><span class="p">,</span><span class="w"> </span><span class="err">bu</span><span class="kc">t</span><span class="w"> </span><span class="err">mus</span><span class="kc">t</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="kc">n</span><span class="err">o</span><span class="kc">n</span><span class="mf">-e</span><span class="err">mp</span><span class="kc">t</span><span class="err">y</span><span class="w"> </span><span class="err">whe</span><span class="kc">n</span><span class="w"> </span><span class="err">speci</span><span class="kc">f</span><span class="err">ied</span><span class="w"></span>
+<span class="w">        </span><span class="err">las</span><span class="kc">t</span><span class="p">:</span><span class="w">    </span><span class="err">!=</span><span class="s2">""</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="err">//</span><span class="w"> </span><span class="err">The</span><span class="w"> </span><span class="err">mi</span><span class="kc">n</span><span class="err">imum</span><span class="w"> </span><span class="err">mus</span><span class="kc">t</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="err">s</span><span class="kc">tr</span><span class="err">ic</span><span class="kc">tl</span><span class="err">y</span><span class="w"> </span><span class="err">smaller</span><span class="w"> </span><span class="kc">t</span><span class="err">ha</span><span class="kc">n</span><span class="w"> </span><span class="kc">t</span><span class="err">he</span><span class="w"> </span><span class="err">maximum</span><span class="w"> </span><span class="err">a</span><span class="kc">n</span><span class="err">d</span><span class="w"> </span><span class="err">vice</span><span class="w"> </span><span class="err">versa.</span><span class="w"></span>
+<span class="w">    </span><span class="err">mi</span><span class="kc">n</span><span class="err">imum?</span><span class="p">:</span><span class="w"> </span><span class="err">i</span><span class="kc">nt</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">&lt;maximum</span><span class="w"></span>
+<span class="w">    </span><span class="err">maximum?</span><span class="p">:</span><span class="w"> </span><span class="err">i</span><span class="kc">nt</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">&gt;mi</span><span class="kc">n</span><span class="err">imum</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="err">//</span><span class="w"> </span><span class="err">A</span><span class="w"> </span><span class="err">spec</span><span class="w"> </span><span class="err">is</span><span class="w"> </span><span class="err">o</span><span class="kc">f</span><span class="w"> </span><span class="kc">t</span><span class="err">ype</span><span class="w"> </span><span class="err">Spec</span><span class="w"></span>
+<span class="err">spec</span><span class="p">:</span><span class="w"> </span><span class="err">Spec</span><span class="w"></span>
+<span class="err">spec</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="err">k</span><span class="kc">n</span><span class="err">id</span><span class="p">:</span><span class="w"> </span><span class="s2">"Homo Sapiens"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">error</span><span class="p">,</span><span class="w"> </span><span class="err">misspelled</span><span class="w"> </span><span class="kc">f</span><span class="err">ield</span><span class="w"></span>
+
+<span class="w">    </span><span class="kc">na</span><span class="err">me</span><span class="p">:</span><span class="w"> </span><span class="kc">f</span><span class="err">irs</span><span class="kc">t</span><span class="p">:</span><span class="w"> </span><span class="s2">"Jane"</span><span class="w"></span>
+<span class="w">    </span><span class="kc">na</span><span class="err">me</span><span class="p">:</span><span class="w"> </span><span class="err">las</span><span class="kc">t</span><span class="p">:</span><span class="w">  </span><span class="s2">"Doe"</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></p>
+<p>This is a <a href="https://github.com/cue-lang/cue/blob/v0.4.2/doc/tutorial/kubernetes/README.md">CUE Kubernetes example</a>.
+This is based on CUE version 0.4.2 which is what I have running on my laptop at this time.</p>
+<p>I copied the kubernetes tutorials to follow it here, it is a very detailed and comprehensive
+look at how you would convert an existing Kubernetes manifest to CUE. There is also a description
+of how to develop custom tooling (scripts) that are integrated and available from CUE CLI
+<a href="https://github.com/cue-lang/cue/blob/master/doc/tutorial/kubernetes/README.md#define-commands">here</a>.</p>
+<div class="highlight"><pre><span></span><code>❯ cp -rp ../../cue-lang/cue/doc/tutorial/kubernetes example/.
+❯ <span class="nb">cd</span> example/kubernetes
+❯ tree ./original <span class="p">|</span> head
+./original
+└── services
+    ├── frontend
+    │   ├── bartender
+    │   │   └── kube.yaml
+    │   ├── breaddispatcher
+    │   │   └── kube.yaml
+    │   ├── host
+    │   │   └── kube.yaml
+    │   ├── maitred
+</code></pre></div>
+<p>Copy and create go module
+<div class="highlight"><pre><span></span><code>$ cp -a original tmp
+$ <span class="nb">cd</span> tmp
+$ cue mod init
+$ go mod init example.com
+$ <span class="nb">cd</span> services
+$ cue import ./... -p kube -l <span class="s1">'strings.ToCamel(kind)'</span> -l metadata.name -f
+</code></pre></div></p>
+<h2 id="compare-models">Compare Models<a class="headerlink" href="#compare-models" title="Permanent link">¶</a></h2>
+<p>We will compare various confiuration data model.
+We will prune both models to focus on the signifacnt differences, also use common
+terms so it will be easier to compare.</p>
+<p>The OAM data model detailed above is pruned and some terms e.g. EnvBinding mapped
+to Environment.</p>
+<h3 id="kubevela-oam-model">Kubevela OAM Model<a class="headerlink" href="#kubevela-oam-model" title="Permanent link">¶</a></h3>
+<div class="mermaid">%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fffcbb', 'fontFamily': 'aerial', 'fontSize': '50px', 'lineColor': '#ff0000', 'primaryBorderColor': '#ff0000'}}}%%
+erDiagram   
+    Application ||--|{ Component : ""
+    Component ||--|{ Environment : ""
+    Environment ||--o{ KubeCluster : "" 
+</div>
+<h3 id="custom-data-model">Custom Data Model<a class="headerlink" href="#custom-data-model" title="Permanent link">¶</a></h3>
+<p><a href="https://seizadi.github.io/cmdb/model/">CMDB Data</a> is a custom data model. We again
+prune and change the names so to make it easier to compare.
+<div class="mermaid">%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#fffcbb', 'fontFamily': 'aerial', 'fontSize': '50px', 'lineColor': '#ff0000', 'primaryBorderColor': '#ff0000'}}}%%
+erDiagram
+    Application ||--o{ Deployment : ""
+    Environment ||--o{ Application : ""
+    KubeCluster ||--o{ Deployment : ""
+    Lifecycle ||--o{ Environment : ""
+</div></p>
+<p>The Kubevela OAM Environment resource is inverted from the CMDB defintion. 
+The CMDB data model loosely connect the Application to a Kubernetes cluster 
+using the Deployment object. The Kubevela requires hard binding of the Application
+using a policy to a Kuberentes Cluster.</p>
+<p>Which data model suits your requirements depends on you use case. The CMDB data model
+assumes that the Application could be deployed to any Environment/Kubernetes Cluster.</p>
+<p>The Kubevela OAM model allows an Application to scale accross multiple clustes, for
+scaling or high availability use cases.</p>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": ".", "features": ["navigation.instant", "navigation.expand"], "search": "assets/javascripts/workers/search.5e67fbfe.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+<script src="assets/javascripts/bundle.c44cc438.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.10.2/mermaid.min.js"></script>
+<script>mermaid.initialize({});</script></body>
+</html>
